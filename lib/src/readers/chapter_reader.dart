@@ -28,11 +28,14 @@ class ChapterReader {
         anchor = navigationPoint.Content.Source
             .substring(contentSourceAnchorCharIndex + 1);
       }
-      contentFileName = Uri.decodeFull(contentFileName);
+
       EpubTextContentFileRef htmlContentFileRef;
       if (!bookRef.Content.Html.containsKey(contentFileName)) {
-        throw Exception(
-            "Incorrect EPUB manifest: item with href = \"${contentFileName}\" is missing.");
+        contentFileName = Uri.decodeFull(contentFileName);
+        if (!bookRef.Content.Html.containsKey(contentFileName)) {
+          throw Exception(
+              "Incorrect EPUB manifest: item with href = \"${contentFileName}\" is missing.");
+        }
       }
 
       htmlContentFileRef = bookRef.Content.Html[contentFileName];
