@@ -11,15 +11,17 @@ main() async {
   final int length = 10;
   final RandomString randomString = new RandomString(new Random(123788));
 
-  var reference = new EpubSpineItemRef()
-    ..IsLinear = true
-    ..IdRef = randomString.randomAlpha(length);
+  var reference = new EpubSpineItemRef(
+    isLinear: true,
+    idRef: randomString.randomAlpha(length),
+  );
 
-  EpubSpineItemRef testSpineItemRef;
+  EpubSpineItemRef? testSpineItemRef;
   setUp(() async {
-    testSpineItemRef = new EpubSpineItemRef()
-      ..IsLinear = reference.IsLinear
-      ..IdRef = reference.IdRef;
+    testSpineItemRef = EpubSpineItemRef(
+      isLinear: reference.isLinear,
+      idRef: reference.idRef,
+    );
   });
   tearDown(() async {
     testSpineItemRef = null;
@@ -31,11 +33,11 @@ main() async {
         expect(testSpineItemRef, equals(reference));
       });
       test("is false when IsLinear changes", () async {
-        testSpineItemRef.IsLinear = !testSpineItemRef.IsLinear;
+        testSpineItemRef?.isLinear = !testSpineItemRef!.isLinear;
         expect(testSpineItemRef, isNot(reference));
       });
       test("is false when IdRef changes", () async {
-        testSpineItemRef.IdRef = randomString.randomAlpha(length);
+        testSpineItemRef?.idRef = randomString.randomAlpha(length);
         expect(testSpineItemRef, isNot(reference));
       });
     });
@@ -45,11 +47,11 @@ main() async {
         expect(testSpineItemRef.hashCode, equals(reference.hashCode));
       });
       test("is false when IsLinear changes", () async {
-        testSpineItemRef.IsLinear = !testSpineItemRef.IsLinear;
+        testSpineItemRef?.isLinear = !testSpineItemRef!.isLinear;
         expect(testSpineItemRef.hashCode, isNot(reference.hashCode));
       });
       test("is false when IdRef changes", () async {
-        testSpineItemRef.IdRef = randomString.randomAlpha(length);
+        testSpineItemRef?.idRef = randomString.randomAlpha(length);
         expect(testSpineItemRef.hashCode, isNot(reference.hashCode));
       });
     });

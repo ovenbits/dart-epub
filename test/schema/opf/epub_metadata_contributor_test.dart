@@ -4,17 +4,19 @@ import 'package:epub/src/schema/opf/epub_metadata_contributor.dart';
 import 'package:test/test.dart';
 
 main() async {
-  var reference = new EpubMetadataContributor()
-    ..Contributor = "orthros"
-    ..FileAs = "Large"
-    ..Role = "Creator";
+  var reference = EpubMetadataContributor(
+    contributor: "orthros",
+    fileAs: "Large",
+    role: "Creator",
+  );
 
-  EpubMetadataContributor testMetadataContributor;
+  EpubMetadataContributor? testMetadataContributor;
   setUp(() async {
-    testMetadataContributor = new EpubMetadataContributor()
-      ..Contributor = reference.Contributor
-      ..FileAs = reference.FileAs
-      ..Role = reference.Role;
+    testMetadataContributor = EpubMetadataContributor(
+      contributor: reference.contributor,
+      fileAs: reference.fileAs,
+      role: reference.role,
+    );
   });
   tearDown(() async {
     testMetadataContributor = null;
@@ -27,15 +29,15 @@ main() async {
       });
 
       test("is false when Contributor changes", () async {
-        testMetadataContributor.Contributor = "NotOrthros";
+        testMetadataContributor?.contributor = "NotOrthros";
         expect(testMetadataContributor, isNot(reference));
       });
       test("is false when FileAs changes", () async {
-        testMetadataContributor.FileAs = "Small";
+        testMetadataContributor?.fileAs = "Small";
         expect(testMetadataContributor, isNot(reference));
       });
       test("is false when Role changes", () async {
-        testMetadataContributor.Role = "Copier";
+        testMetadataContributor?.role = "Copier";
         expect(testMetadataContributor, isNot(reference));
       });
     });
@@ -46,15 +48,15 @@ main() async {
       });
 
       test("is false when Contributor changes", () async {
-        testMetadataContributor.Contributor = "NotOrthros";
+        testMetadataContributor?.contributor = "NotOrthros";
         expect(testMetadataContributor.hashCode, isNot(reference.hashCode));
       });
       test("is false when FileAs changes", () async {
-        testMetadataContributor.FileAs = "Small";
+        testMetadataContributor?.fileAs = "Small";
         expect(testMetadataContributor.hashCode, isNot(reference.hashCode));
       });
       test("is false when Role changes", () async {
-        testMetadataContributor.Role = "Copier";
+        testMetadataContributor?.role = "Copier";
         expect(testMetadataContributor.hashCode, isNot(reference.hashCode));
       });
     });

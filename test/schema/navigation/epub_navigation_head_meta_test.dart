@@ -11,12 +11,13 @@ main() async {
   final generator = new RandomDataGenerator(new Random(7898), 10);
   final EpubNavigationHeadMeta reference = generator.randomNavigationHeadMeta();
 
-  EpubNavigationHeadMeta testNavigationDocTitle;
+  EpubNavigationHeadMeta? testNavigationDocTitle;
   setUp(() async {
-    testNavigationDocTitle = new EpubNavigationHeadMeta()
-      ..Content = reference.Content
-      ..Name = reference.Name
-      ..Scheme = reference.Scheme;
+    testNavigationDocTitle = EpubNavigationHeadMeta(
+      content: reference.content,
+      name: reference.name,
+      scheme: reference.scheme,
+    );
   });
   tearDown(() async {
     testNavigationDocTitle = null;
@@ -29,15 +30,15 @@ main() async {
       });
 
       test("is false when Content changes", () async {
-        testNavigationDocTitle.Content = generator.randomString();
+        testNavigationDocTitle?.content = generator.randomString();
         expect(testNavigationDocTitle, isNot(reference));
       });
       test("is false when Name changes", () async {
-        testNavigationDocTitle.Name = generator.randomString();
+        testNavigationDocTitle?.name = generator.randomString();
         expect(testNavigationDocTitle, isNot(reference));
       });
       test("is false when Scheme changes", () async {
-        testNavigationDocTitle.Scheme = generator.randomString();
+        testNavigationDocTitle?.scheme = generator.randomString();
         expect(testNavigationDocTitle, isNot(reference));
       });
     });
@@ -48,15 +49,15 @@ main() async {
       });
 
       test("is false when Content changes", () async {
-        testNavigationDocTitle.Content = generator.randomString();
+        testNavigationDocTitle?.content = generator.randomString();
         expect(testNavigationDocTitle.hashCode, isNot(reference.hashCode));
       });
       test("is false when Name changes", () async {
-        testNavigationDocTitle.Name = generator.randomString();
+        testNavigationDocTitle?.name = generator.randomString();
         expect(testNavigationDocTitle.hashCode, isNot(reference.hashCode));
       });
       test("is false when Scheme changes", () async {
-        testNavigationDocTitle.Scheme = generator.randomString();
+        testNavigationDocTitle?.scheme = generator.randomString();
         expect(testNavigationDocTitle.hashCode, isNot(reference.hashCode));
       });
     });
