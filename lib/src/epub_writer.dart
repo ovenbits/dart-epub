@@ -18,28 +18,30 @@ class EpubWriter {
     arch.addFile(ArchiveFile('META-INF/container.xml', _container_file.length, convert.utf8.encode(_container_file)));
 
     // Add all content to the archive
-    book.Content.AllFiles.forEach((name, file) {
+    book.content.allFiles.forEach((name, file) {
       List<int> content;
 
       if (file is EpubByteContentFile) {
-        content = file.Content;
+        content = file.content;
       } else if (file is EpubTextContentFile) {
-        content = convert.utf8.encode(file.Content);
+        content = convert.utf8.encode(file.content);
+      } else {
+        content = [];
       }
 
-      arch.addFile(ArchiveFile(ZipPathUtils.combine(book.Schema.ContentDirectoryPath, name), content.length, content));
+      arch.addFile(ArchiveFile(ZipPathUtils.combine(book.schema.contentDirectoryPath, name), content.length, content));
     });
 
     // Generate the content.opf file and add it to the Archive
-    var contentopf = EpubPackageWriter.writeContent(book.Schema.Package);
+    var contentopf = EpubPackageWriter.writeContent(book.schema.package);
 
-    arch.addFile(ArchiveFile(ZipPathUtils.combine(book.Schema.ContentDirectoryPath, 'content.opf'), contentopf.length, convert.utf8.encode(contentopf)));
+    arch.addFile(ArchiveFile(ZipPathUtils.combine(book.schema.contentDirectoryPath, 'content.opf'), contentopf.length, convert.utf8.encode(contentopf)));
 
     return arch;
   }
 
   // Serializes the EpubBook into a byte array
-  static List<int> writeBook(EpubBook book) {
+  static List<int>? writeBook(EpubBook book) {
     var arch = _createArchive(book);
 
     return ZipEncoder().encode(arch);

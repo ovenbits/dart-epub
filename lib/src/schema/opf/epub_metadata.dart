@@ -8,66 +8,106 @@ import 'epub_metadata_identifier.dart';
 import 'epub_metadata_meta.dart';
 
 class EpubMetadata {
-  List<String> Titles;
-  List<EpubMetadataCreator> Creators;
-  List<String> Subjects;
-  String Description;
-  List<String> Publishers;
-  List<EpubMetadataContributor> Contributors;
-  List<EpubMetadataDate> Dates;
-  List<String> Types;
-  List<String> Formats;
-  List<EpubMetadataIdentifier> Identifiers;
-  List<String> Sources;
-  List<String> Languages;
-  List<String> Relations;
-  List<String> Coverages;
-  List<String> Rights;
-  List<EpubMetadataMeta> MetaItems;
+  EpubMetadata({
+    required this.titles,
+    required this.creators,
+    required this.subjects,
+    required this.description,
+    required this.publishers,
+    required this.contributors,
+    required this.dates,
+    required this.types,
+    required this.formats,
+    required this.identifiers,
+    required this.sources,
+    required this.languages,
+    required this.relations,
+    required this.coverages,
+    required this.rights,
+    required this.metaItems,
+  });
+
+  factory EpubMetadata.empty() => EpubMetadata(
+        titles: [],
+        creators: [],
+        subjects: [],
+        description: null,
+        publishers: [],
+        contributors: [],
+        dates: [],
+        types: [],
+        formats: [],
+        identifiers: [],
+        sources: [],
+        languages: [],
+        relations: [],
+        coverages: [],
+        rights: [],
+        metaItems: [],
+      );
+
+  List<String> titles;
+  List<EpubMetadataCreator> creators;
+  List<String> subjects;
+  String? description;
+  List<String> publishers;
+  List<EpubMetadataContributor> contributors;
+  List<EpubMetadataDate> dates;
+  List<String> types;
+  List<String> formats;
+  List<EpubMetadataIdentifier> identifiers;
+  List<String> sources;
+  List<String> languages;
+  List<String> relations;
+  List<String> coverages;
+  List<String> rights;
+  List<EpubMetadataMeta> metaItems;
 
   @override
   int get hashCode {
-    var objects = []
-      ..addAll(Titles.map((title) => title.hashCode))
-      ..addAll(Creators.map((creator) => creator.hashCode))
-      ..addAll(Subjects.map((subject) => subject.hashCode))
-      ..addAll(Publishers.map((publisher) => publisher.hashCode))
-      ..addAll(Contributors.map((contributor) => contributor.hashCode))
-      ..addAll(Dates.map((date) => date.hashCode))
-      ..addAll(Types.map((type) => type.hashCode))
-      ..addAll(Formats.map((format) => format.hashCode))
-      ..addAll(Identifiers.map((identifier) => identifier.hashCode))
-      ..addAll(Sources.map((source) => source.hashCode))
-      ..addAll(Languages.map((language) => language.hashCode))
-      ..addAll(Relations.map((relation) => relation.hashCode))
-      ..addAll(Coverages.map((coverage) => coverage.hashCode))
-      ..addAll(Rights.map((right) => right.hashCode))
-      ..addAll(MetaItems.map((metaItem) => metaItem.hashCode))
-      ..add(Description.hashCode);
+    var objects = [
+      ...titles.map((title) => title.hashCode),
+      ...creators.map((creator) => creator.hashCode),
+      ...subjects.map((subject) => subject.hashCode),
+      ...publishers.map((publisher) => publisher.hashCode),
+      ...contributors.map((contributor) => contributor.hashCode),
+      ...dates.map((date) => date.hashCode),
+      ...types.map((type) => type.hashCode),
+      ...formats.map((format) => format.hashCode),
+      ...identifiers.map((identifier) => identifier.hashCode),
+      ...sources.map((source) => source.hashCode),
+      ...languages.map((language) => language.hashCode),
+      ...relations.map((relation) => relation.hashCode),
+      ...coverages.map((coverage) => coverage.hashCode),
+      ...rights.map((right) => right.hashCode),
+      ...metaItems.map((metaItem) => metaItem.hashCode),
+      description.hashCode,
+    ];
 
     return hashObjects(objects);
   }
 
+  @override
   bool operator ==(other) {
-    var otherAs = other as EpubMetadata;
+    var otherAs = other as EpubMetadata?;
     if (otherAs == null) return false;
-    if (Description != otherAs.Description) return false;
+    if (description != otherAs.description) return false;
 
-    if (!collections.listsEqual(Titles, otherAs.Titles) ||
-        !collections.listsEqual(Creators, otherAs.Creators) ||
-        !collections.listsEqual(Subjects, otherAs.Subjects) ||
-        !collections.listsEqual(Publishers, otherAs.Publishers) ||
-        !collections.listsEqual(Contributors, otherAs.Contributors) ||
-        !collections.listsEqual(Dates, otherAs.Dates) ||
-        !collections.listsEqual(Types, otherAs.Types) ||
-        !collections.listsEqual(Formats, otherAs.Formats) ||
-        !collections.listsEqual(Identifiers, otherAs.Identifiers) ||
-        !collections.listsEqual(Sources, otherAs.Sources) ||
-        !collections.listsEqual(Languages, otherAs.Languages) ||
-        !collections.listsEqual(Relations, otherAs.Relations) ||
-        !collections.listsEqual(Coverages, otherAs.Coverages) ||
-        !collections.listsEqual(Rights, other.Rights) ||
-        !collections.listsEqual(MetaItems, other.MetaItems)) {
+    if (!collections.listsEqual(titles, otherAs.titles) ||
+        !collections.listsEqual(creators, otherAs.creators) ||
+        !collections.listsEqual(subjects, otherAs.subjects) ||
+        !collections.listsEqual(publishers, otherAs.publishers) ||
+        !collections.listsEqual(contributors, otherAs.contributors) ||
+        !collections.listsEqual(dates, otherAs.dates) ||
+        !collections.listsEqual(types, otherAs.types) ||
+        !collections.listsEqual(formats, otherAs.formats) ||
+        !collections.listsEqual(identifiers, otherAs.identifiers) ||
+        !collections.listsEqual(sources, otherAs.sources) ||
+        !collections.listsEqual(languages, otherAs.languages) ||
+        !collections.listsEqual(relations, otherAs.relations) ||
+        !collections.listsEqual(coverages, otherAs.coverages) ||
+        !collections.listsEqual(rights, otherAs.rights) ||
+        !collections.listsEqual(metaItems, otherAs.metaItems)) {
       return false;
     }
 

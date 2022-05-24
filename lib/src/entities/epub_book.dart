@@ -1,46 +1,49 @@
-import 'package:image/image.dart';
 import 'package:quiver/collection.dart' as collections;
 import 'package:quiver/core.dart';
 
-import 'epub_chapter.dart';
-import 'epub_content.dart';
-import 'epub_schema.dart';
+import 'package:epub/epub.dart';
+import 'package:epub/src/entities/epub_schema.dart';
 
 class EpubBook {
-  String Title;
-  String Author;
-  List<String> AuthorList;
-  EpubSchema Schema;
-  EpubContent Content;
-  Image CoverImage;
-  List<EpubChapter> Chapters;
+  EpubBook({
+    required this.title,
+    required this.author,
+    required this.authorList,
+    required this.schema,
+    required this.content,
+    this.coverImage,
+    required this.chapters,
+  });
+
+  String title;
+  String author;
+  List<String> authorList;
+  EpubSchema schema;
+  EpubContent content;
+  Image? coverImage;
+  List<EpubChapter> chapters;
 
   @override
   int get hashCode {
-    var objects = []
-      ..add(Title.hashCode)
-      ..add(Author.hashCode)
-      ..add(Schema.hashCode)
-      ..add(Content.hashCode)
-      ..addAll(CoverImage?.getBytes()?.map((byte) => byte.hashCode) ?? [0])
-      ..addAll(AuthorList?.map((author) => author.hashCode) ?? [0])
-      ..addAll(Chapters?.map((chapter) => chapter.hashCode) ?? [0]);
+    var objects = [
+      title.hashCode,
+      author.hashCode,
+      schema.hashCode,
+      content.hashCode,
+      ...coverImage?.getBytes().map((byte) => byte.hashCode) ?? [0],
+      ...authorList.map((author) => author.hashCode),
+      ...chapters.map((chapter) => chapter.hashCode),
+    ];
     return hashObjects(objects);
   }
 
+  @override
   bool operator ==(other) {
-    var otherAs = other as EpubBook;
+    var otherAs = other as EpubBook?;
     if (otherAs == null) {
       return false;
     }
 
-    return Title == otherAs.Title &&
-        Author == otherAs.Author &&
-        collections.listsEqual(AuthorList, otherAs.AuthorList) &&
-        Schema == otherAs.Schema &&
-        Content == otherAs.Content &&
-        collections.listsEqual(
-            CoverImage.getBytes(), otherAs.CoverImage.getBytes()) &&
-        collections.listsEqual(Chapters, otherAs.Chapters);
+    return title == otherAs.title && author == otherAs.author && collections.listsEqual(authorList, otherAs.authorList) && schema == otherAs.schema && content == otherAs.content && collections.listsEqual(coverImage?.getBytes(), otherAs.coverImage?.getBytes()) && collections.listsEqual(chapters, otherAs.chapters);
   }
 }

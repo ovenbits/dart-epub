@@ -1,41 +1,47 @@
 import 'package:quiver/core.dart';
 
 class EpubManifestItem {
-  String Id;
-  String Href;
-  String MediaType;
-  String RequiredNamespace;
-  String RequiredModules;
-  String Fallback;
-  String FallbackStyle;
+  EpubManifestItem({
+    required this.id,
+    required this.href,
+    required this.mediaType,
+    this.requiredNamespace,
+    this.requiredModules,
+    this.fallback,
+    this.fallbackStyle,
+  });
+
+  String id;
+  String href;
+  String mediaType;
+  String? requiredNamespace;
+  String? requiredModules;
+  String? fallback;
+  String? fallbackStyle;
 
   @override
   int get hashCode => hashObjects([
-        Id.hashCode,
-        Href.hashCode,
-        MediaType.hashCode,
-        RequiredNamespace.hashCode,
-        RequiredModules.hashCode,
-        Fallback.hashCode,
-        FallbackStyle.hashCode
+        id.hashCode,
+        href.hashCode,
+        mediaType.hashCode,
+        requiredNamespace.hashCode,
+        requiredModules.hashCode,
+        fallback.hashCode,
+        fallbackStyle.hashCode,
       ]);
 
+  @override
   bool operator ==(other) {
-    var otherAs = other as EpubManifestItem;
+    var otherAs = other as EpubManifestItem?;
     if (otherAs == null) {
       return false;
     }
 
-    return Id == otherAs.Id &&
-        Href == otherAs.Href &&
-        MediaType == otherAs.MediaType &&
-        RequiredNamespace == otherAs.RequiredNamespace &&
-        RequiredModules == otherAs.RequiredModules &&
-        Fallback == otherAs.Fallback &&
-        FallbackStyle == otherAs.FallbackStyle;
+    return id == otherAs.id && href == otherAs.href && mediaType == otherAs.mediaType && requiredNamespace == otherAs.requiredNamespace && requiredModules == otherAs.requiredModules && fallback == otherAs.fallback && fallbackStyle == otherAs.fallbackStyle;
   }
 
+  @override
   String toString() {
-    return "Id: ${Id}, Href = ${Href}, MediaType = ${MediaType}";
+    return 'Id: $id, Href = $href, MediaType = $mediaType';
   }
 }

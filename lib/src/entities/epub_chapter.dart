@@ -2,36 +2,51 @@ import 'package:quiver/collection.dart' as collections;
 import 'package:quiver/core.dart';
 
 class EpubChapter {
-  String Title;
-  String ContentFileName;
-  String Anchor;
-  String HtmlContent;
-  List<EpubChapter> SubChapters;
+  EpubChapter({
+    required this.title,
+    required this.contentFileName,
+    required this.anchor,
+    required this.htmlContent,
+    required this.subChapters,
+  });
+
+  factory EpubChapter.empty() => EpubChapter(
+        title: '',
+        contentFileName: '',
+        anchor: null,
+        htmlContent: '',
+        subChapters: [],
+      );
+
+  String title;
+  String contentFileName;
+  String? anchor;
+  String htmlContent;
+  List<EpubChapter> subChapters;
 
   @override
   int get hashCode {
-    var objects = []
-      ..add(Title.hashCode)
-      ..add(ContentFileName.hashCode)
-      ..add(Anchor.hashCode)
-      ..add(HtmlContent.hashCode)
-      ..addAll(SubChapters?.map((subChapter) => subChapter.hashCode) ?? [0]);
+    var objects = [
+      title.hashCode,
+      contentFileName.hashCode,
+      anchor.hashCode,
+      htmlContent.hashCode,
+      ...subChapters.map((subChapter) => subChapter.hashCode),
+    ];
     return hashObjects(objects);
   }
 
+  @override
   bool operator ==(other) {
-    var otherAs = other as EpubChapter;
+    var otherAs = other as EpubChapter?;
     if (otherAs == null) {
       return false;
     }
-    return Title == otherAs.Title &&
-        ContentFileName == otherAs.ContentFileName &&
-        Anchor == otherAs.Anchor &&
-        HtmlContent == otherAs.HtmlContent &&
-        collections.listsEqual(SubChapters, otherAs.SubChapters);
+    return title == otherAs.title && contentFileName == otherAs.contentFileName && anchor == otherAs.anchor && htmlContent == otherAs.htmlContent && collections.listsEqual(subChapters, otherAs.subChapters);
   }
 
+  @override
   String toString() {
-    return "Title: ${Title}, Subchapter count: ${SubChapters.length}";
+    return 'Title: $title, Subchapter count: ${subChapters.length}';
   }
 }

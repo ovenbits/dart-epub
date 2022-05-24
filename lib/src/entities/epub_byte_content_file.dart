@@ -1,29 +1,34 @@
+import 'package:epub/epub.dart';
 import 'package:quiver/collection.dart' as collections;
 import 'package:quiver/core.dart';
 
-import 'epub_content_file.dart';
-
 class EpubByteContentFile extends EpubContentFile {
-  List<int> Content;
+  EpubByteContentFile({
+    required this.content,
+    required super.fileName,
+    required super.contentType,
+    required super.contentMimeType,
+  });
+
+  List<int> content;
 
   @override
   int get hashCode {
-    var objects = []
-      ..add(ContentMimeType.hashCode)
-      ..add(ContentType.hashCode)
-      ..add(FileName.hashCode)
-      ..addAll(Content?.map((content) => content.hashCode) ?? [0]);
+    var objects = [
+      contentMimeType.hashCode,
+      contentType.hashCode,
+      fileName.hashCode,
+      ...content.map((content) => content.hashCode),
+    ];
     return hashObjects(objects);
   }
 
+  @override
   bool operator ==(other) {
-    var otherAs = other as EpubByteContentFile;
+    var otherAs = other as EpubByteContentFile?;
     if (otherAs == null) {
       return false;
     }
-    return collections.listsEqual(Content, otherAs.Content) &&
-        ContentMimeType == otherAs.ContentMimeType &&
-        ContentType == otherAs.ContentType &&
-        FileName == otherAs.FileName;
+    return collections.listsEqual(content, otherAs.content) && contentMimeType == otherAs.contentMimeType && contentType == otherAs.contentType && fileName == otherAs.fileName;
   }
 }
