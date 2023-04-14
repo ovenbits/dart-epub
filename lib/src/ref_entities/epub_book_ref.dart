@@ -12,47 +12,64 @@ import 'epub_chapter_ref.dart';
 import 'epub_content_ref.dart';
 
 class EpubBookRef {
-  Archive _epubArchive;
+  final Archive _epubArchive;
 
-  String Title;
-  String Author;
-  List<String> AuthorList;
-  EpubSchema Schema;
-  EpubContentRef Content;
-  EpubBookRef(Archive epubArchive) {
-    this._epubArchive = epubArchive;
+  String title;
+  String author;
+  List<String> authorList;
+  EpubSchema schema;
+  EpubContentRef content;
+
+  EpubBookRef({
+    required Archive epubArchive,
+    required this.title,
+    required this.author,
+    required this.authorList,
+    required this.schema,
+    required this.content,
+  }) : _epubArchive = epubArchive;
+
+  EpubBookRef copyWith({
+    Archive? epubArchive,
+    String? title,
+    String? author,
+    List<String>? authorList,
+    EpubSchema? schema,
+    EpubContentRef? content,
+  }) =>
+      EpubBookRef(
+        epubArchive: epubArchive ?? this.epubArchive,
+        title: title ?? this.title,
+        author: author ?? this.author,
+        authorList: authorList ?? this.authorList,
+        schema: schema ?? this.schema,
+        content: content ?? this.content,
+      );
+
+  @override
+  int get hashCode {
+    var objects = [
+      title.hashCode,
+      author.hashCode,
+      schema.hashCode,
+      content.hashCode,
+      ...authorList.map((author) => author.hashCode),
+    ];
+    return hashObjects(objects);
   }
 
   @override
-  int get hashCode => hashObjects([
-        Title.hashCode,
-        Author.hashCode,
-        AuthorList.hashCode,
-        Schema.hashCode,
-        Content.hashCode
-      ]);
-
   bool operator ==(other) {
-    var otherAs = other as EpubBookRef;
+    var otherAs = other as EpubBookRef?;
     if (otherAs == null) {
       return false;
     }
-    return Title == otherAs.Title &&
-        Author == otherAs.Author &&
-        Schema == otherAs.Schema &&
-        Content == otherAs.Content &&
-        collections.listsEqual(AuthorList, otherAs.AuthorList);
+    return title == otherAs.title && author == otherAs.author && schema == otherAs.schema && content == otherAs.content && collections.listsEqual(authorList, otherAs.authorList);
   }
 
-  Archive EpubArchive() {
-    return _epubArchive;
-  }
+  Archive get epubArchive => _epubArchive;
 
-  Future<List<EpubChapterRef>> getChapters() async {
-    return await ChapterReader.getChapters(this);
-  }
+  List<EpubChapterRef> getChapters() => ChapterReader.getChapters(this);
 
-  Future<Image> readCover() async {
-    return await BookCoverReader.readBookCover(this);
-  }
+  Future<Image?> readCover() => BookCoverReader.readBookCover(this);
 }

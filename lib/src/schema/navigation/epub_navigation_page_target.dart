@@ -6,40 +6,49 @@ import 'epub_navigation_label.dart';
 import 'epub_navigation_page_target_type.dart';
 
 class EpubNavigationPageTarget {
-  String Id;
-  String Value;
-  EpubNavigationPageTargetType Type;
-  String Class;
-  String PlayOrder;
-  List<EpubNavigationLabel> NavigationLabels;
-  EpubNavigationContent Content;
+  EpubNavigationPageTarget({
+    required this.id,
+    required this.value,
+    required this.type,
+    required this.className,
+    required this.playOrder,
+    required this.navigationLabels,
+    required this.content,
+  });
+
+  final String? id;
+  final String? value;
+  final EpubNavigationPageTargetType type;
+  final String? className;
+  final String? playOrder;
+  final List<EpubNavigationLabel> navigationLabels;
+  final EpubNavigationContent? content;
 
   @override
-  int get hashCode => hashObjects([
-        Id.hashCode,
-        Value.hashCode,
-        Type.hashCode,
-        Class.hashCode,
-        PlayOrder.hashCode,
-        NavigationLabels.hashCode,
-        Content.hashCode
-      ]);
+  int get hashCode {
+    final objects = [
+      id.hashCode,
+      value.hashCode,
+      type.hashCode,
+      className.hashCode,
+      playOrder.hashCode,
+      content.hashCode,
+      ...navigationLabels.map((label) => label.hashCode),
+    ];
+    return hashObjects(objects);
+  }
 
+  @override
   bool operator ==(other) {
-    var otherAs = other as EpubNavigationPageTarget;
+    var otherAs = other as EpubNavigationPageTarget?;
     if (otherAs == null) {
       return false;
     }
 
-    if (!(Id == otherAs.Id &&
-        Value == otherAs.Value &&
-        Type == otherAs.Type &&
-        Class == otherAs.Class &&
-        PlayOrder == otherAs.PlayOrder &&
-        Content == otherAs.Content)) {
+    if (!(id == otherAs.id && value == otherAs.value && type == otherAs.type && className == otherAs.className && playOrder == otherAs.playOrder && content == otherAs.content)) {
       return false;
     }
 
-    return collections.listsEqual(NavigationLabels, otherAs.NavigationLabels);
+    return collections.listsEqual(navigationLabels, otherAs.navigationLabels);
   }
 }

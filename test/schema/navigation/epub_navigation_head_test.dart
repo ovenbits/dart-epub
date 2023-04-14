@@ -8,15 +8,13 @@ import 'package:test/test.dart';
 import '../../random_data_generator.dart';
 
 main() async {
-  final RandomDataGenerator generator =
-      new RandomDataGenerator(new Random(123778), 10);
+  final RandomDataGenerator generator = new RandomDataGenerator(new Random(123778), 10);
 
   final EpubNavigationHead reference = generator.randomEpubNavigationHead();
 
-  EpubNavigationHead testGuideReference;
+  EpubNavigationHead? testGuideReference;
   setUp(() async {
-    testGuideReference = new EpubNavigationHead()
-      ..Metadata = List.from(reference.Metadata);
+    testGuideReference = new EpubNavigationHead(metadata: List.from(reference.metadata));
   });
   tearDown(() async {
     testGuideReference = null;
@@ -28,7 +26,7 @@ main() async {
       });
 
       test("is false when Metadata changes", () async {
-        testGuideReference.Metadata.add(generator.randomNavigationHeadMeta());
+        testGuideReference?.metadata.add(generator.randomNavigationHeadMeta());
         expect(testGuideReference, isNot(reference));
       });
     });
@@ -39,7 +37,7 @@ main() async {
       });
 
       test("is false when Metadata changes", () async {
-        testGuideReference.Metadata.add(generator.randomNavigationHeadMeta());
+        testGuideReference?.metadata.add(generator.randomNavigationHeadMeta());
         expect(testGuideReference.hashCode, isNot(reference.hashCode));
       });
     });

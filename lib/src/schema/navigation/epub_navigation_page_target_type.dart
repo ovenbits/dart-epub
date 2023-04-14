@@ -1,1 +1,6 @@
-enum EpubNavigationPageTargetType { UNDEFINED, FRONT, NORMAL, SPECIAL }
+enum EpubNavigationPageTargetType {
+  UNDEFINED,
+  FRONT,
+  NORMAL,
+  SPECIAL,
+}

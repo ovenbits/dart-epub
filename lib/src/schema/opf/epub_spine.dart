@@ -4,24 +4,29 @@ import 'package:quiver/core.dart';
 import 'epub_spine_item_ref.dart';
 
 class EpubSpine {
-  String TableOfContents;
-  List<EpubSpineItemRef> Items;
+  EpubSpine({required this.tableOfContents, required this.items});
+
+  String? tableOfContents;
+  List<EpubSpineItemRef> items;
 
   @override
   int get hashCode {
-    var objs = []
-      ..add(TableOfContents.hashCode)
-      ..addAll(Items.map((item) => item.hashCode));
+    var objs = [
+      tableOfContents.hashCode,
+      ...items.map((item) => item.hashCode),
+    ];
     return hashObjects(objs);
   }
 
+  @override
   bool operator ==(other) {
-    var otherAs = other as EpubSpine;
+    var otherAs = other as EpubSpine?;
     if (otherAs == null) return false;
 
-    if (!collections.listsEqual(Items, otherAs.Items)) {
+    if (!collections.listsEqual(items, otherAs.items)) {
       return false;
     }
-    return TableOfContents == otherAs.TableOfContents;
+
+    return tableOfContents == otherAs.tableOfContents;
   }
 }

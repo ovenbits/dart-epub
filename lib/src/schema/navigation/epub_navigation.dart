@@ -9,39 +9,58 @@ import 'epub_navigation_map.dart';
 import 'epub_navigation_page_list.dart';
 
 class EpubNavigation {
-  EpubNavigationHead Head;
-  EpubNavigationDocTitle DocTitle;
-  List<EpubNavigationDocAuthor> DocAuthors;
-  EpubNavigationMap NavMap;
-  EpubNavigationPageList PageList;
-  List<EpubNavigationList> NavLists;
+  EpubNavigation({
+    required this.head,
+    required this.docTitle,
+    required this.docAuthors,
+    required this.navMap,
+    required this.pageList,
+    required this.navLists,
+  });
+
+  factory EpubNavigation.empty() => EpubNavigation(
+        head: EpubNavigationHead(metadata: []),
+        docTitle: EpubNavigationDocTitle(titles: []),
+        docAuthors: [],
+        navMap: EpubNavigationMap(points: []),
+        pageList: null,
+        navLists: [],
+      );
+
+  final EpubNavigationHead head;
+  final EpubNavigationDocTitle docTitle;
+  final List<EpubNavigationDocAuthor> docAuthors;
+  final EpubNavigationMap navMap;
+  final EpubNavigationPageList? pageList;
+  final List<EpubNavigationList> navLists;
 
   @override
-  int get hashCode => hashObjects([
-        Head.hashCode,
-        DocTitle.hashCode,
-        DocAuthors.hashCode,
-        NavMap.hashCode,
-        PageList.hashCode,
-        NavLists.hashCode
-      ]);
+  int get hashCode {
+    final objects = [
+      head.hashCode,
+      docTitle.hashCode,
+      navMap.hashCode,
+      pageList.hashCode,
+      ...docAuthors.map((author) => author.hashCode),
+      ...navLists.map((navList) => navList.hashCode),
+    ];
+    return hashObjects(objects);
+  }
 
+  @override
   bool operator ==(other) {
-    var otherAs = other as EpubNavigation;
+    var otherAs = other as EpubNavigation?;
     if (otherAs == null) {
       return false;
     }
 
-    if (!collections.listsEqual(DocAuthors, otherAs.DocAuthors)) {
+    if (!collections.listsEqual(docAuthors, otherAs.docAuthors)) {
       return false;
     }
-    if (!collections.listsEqual(NavLists, otherAs.NavLists)) {
+    if (!collections.listsEqual(navLists, otherAs.navLists)) {
       return false;
     }
 
-    return Head == otherAs.Head &&
-        DocTitle == otherAs.DocTitle &&
-        NavMap == otherAs.NavMap &&
-        PageList == otherAs.PageList;
+    return head == otherAs.head && docTitle == otherAs.docTitle && navMap == otherAs.navMap && pageList == otherAs.pageList;
   }
 }

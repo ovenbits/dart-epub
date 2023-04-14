@@ -6,43 +6,47 @@ import 'package:quiver/core.dart';
 import 'epub_text_content_file_ref.dart';
 
 class EpubChapterRef {
+  EpubChapterRef({
+    required this.epubTextContentFileRef,
+    required this.title,
+    required this.contentFileName,
+    required this.anchor,
+    required this.subChapters,
+  });
+
   EpubTextContentFileRef epubTextContentFileRef;
+  String title;
+  String contentFileName;
+  String? anchor;
+  List<EpubChapterRef> subChapters;
 
-  String Title;
-  String ContentFileName;
-  String Anchor;
-  List<EpubChapterRef> SubChapters;
-
-  EpubChapterRef(EpubTextContentFileRef epubTextContentFileRef) {
-    this.epubTextContentFileRef = epubTextContentFileRef;
+  @override
+  int get hashCode {
+    final objects = [
+      title.hashCode,
+      contentFileName.hashCode,
+      anchor.hashCode,
+      epubTextContentFileRef.hashCode,
+      ...subChapters.map((subChapter) => subChapter.hashCode),
+    ];
+    return hashObjects(objects);
   }
 
   @override
-  int get hashCode => hashObjects([
-        Title.hashCode,
-        ContentFileName.hashCode,
-        Anchor.hashCode,
-        epubTextContentFileRef.hashCode,
-        SubChapters.hashCode
-      ]);
-
   bool operator ==(other) {
-    var otherAs = other as EpubChapterRef;
+    var otherAs = other as EpubChapterRef?;
     if (otherAs == null) {
       return false;
     }
-    return Title == otherAs.Title &&
-        ContentFileName == otherAs.ContentFileName &&
-        Anchor == otherAs.Anchor &&
-        epubTextContentFileRef == otherAs.epubTextContentFileRef &&
-        collections.listsEqual(SubChapters, otherAs.SubChapters);
+    return title == otherAs.title && contentFileName == otherAs.contentFileName && anchor == otherAs.anchor && epubTextContentFileRef == otherAs.epubTextContentFileRef && collections.listsEqual(subChapters, otherAs.subChapters);
   }
 
   Future<String> readHtmlContent() async {
     return epubTextContentFileRef.readContentAsText();
   }
 
+  @override
   String toString() {
-    return "Title: ${Title}, Subchapter count: ${SubChapters.length}";
+    return 'Title: $title, Subchapter count: ${subChapters.length}';
   }
 }

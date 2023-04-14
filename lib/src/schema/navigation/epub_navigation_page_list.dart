@@ -1,17 +1,23 @@
 import 'package:quiver/collection.dart' as collections;
+import 'package:quiver/core.dart';
 
 import 'epub_navigation_page_target.dart';
 
 class EpubNavigationPageList {
-  List<EpubNavigationPageTarget> Targets;
+  EpubNavigationPageList({required this.targets});
+
+  final List<EpubNavigationPageTarget> targets;
 
   @override
-  int get hashCode => Targets.hashCode;
+  int get hashCode {
+    return hashObjects(targets.map((target) => target.hashCode));
+  }
 
+  @override
   bool operator ==(other) {
-    var otherAs = other as EpubNavigationPageList;
+    var otherAs = other as EpubNavigationPageList?;
     if (otherAs == null) return false;
 
-    return collections.listsEqual(Targets, otherAs.Targets);
+    return collections.listsEqual(targets, otherAs.targets);
   }
 }

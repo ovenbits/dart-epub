@@ -4,25 +4,23 @@ import 'package:quiver/core.dart';
 import 'epub_guide_reference.dart';
 
 class EpubGuide {
-  List<EpubGuideReference> Items;
+  EpubGuide({required this.items});
 
-  EpubGuide() {
-    Items = List<EpubGuideReference>();
-  }
+  final List<EpubGuideReference> items;
 
   @override
   int get hashCode {
-    var objects = [];
-    objects.addAll(Items.map((item) => item.hashCode));
+    final objects = items.map((item) => item.hashCode);
     return hashObjects(objects);
   }
 
+  @override
   bool operator ==(other) {
-    var otherAs = other as EpubGuide;
+    var otherAs = other as EpubGuide?;
     if (otherAs == null) {
       return false;
     }
 
-    return collections.listsEqual(Items, otherAs.Items);
+    return collections.listsEqual(items, otherAs.items);
   }
 }
