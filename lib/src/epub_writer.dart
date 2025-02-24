@@ -12,7 +12,7 @@ class EpubWriter {
     var arch = Archive();
 
     // Add simple metadata
-    arch.addFile(ArchiveFile.noCompress('metadata', 20, convert.utf8.encode('application/epub+zip')));
+    arch.addFile(ArchiveFile.bytes('metadata', convert.utf8.encode('application/epub+zip')));
 
     // Add Container file
     arch.addFile(ArchiveFile('META-INF/container.xml', _container_file.length, convert.utf8.encode(_container_file)));
@@ -33,7 +33,7 @@ class EpubWriter {
     });
 
     // Generate the content.opf file and add it to the Archive
-    var contentopf = EpubPackageWriter.writeContent(book.schema.package);
+    final contentopf = EpubPackageWriter.writeContent(book.schema.package);
 
     arch.addFile(ArchiveFile(ZipPathUtils.combine(book.schema.contentDirectoryPath, 'content.opf'), contentopf.length, convert.utf8.encode(contentopf)));
 

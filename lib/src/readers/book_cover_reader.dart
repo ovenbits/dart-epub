@@ -22,13 +22,12 @@ class BookCoverReader {
       throw Exception('Incorrect EPUB manifest: item with ID = \"${coverMetaItem.content}\" is missing.');
     }
 
-    final coverImageContentFileRef;
     if (!bookRef.content.images.containsKey(coverManifestItem.href)) {
       throw Exception('Incorrect EPUB manifest: item with href = \"${coverManifestItem.href}\" is missing.');
     }
 
-    coverImageContentFileRef = bookRef.content.images[coverManifestItem.href];
-    List<int> coverImageContent = await coverImageContentFileRef.readContentAsBytes();
+    final coverImageContentFileRef = bookRef.content.images[coverManifestItem.href]!;
+    final coverImageContent = await coverImageContentFileRef.readContentAsBytes();
 
     return images.decodeImage(coverImageContent);
   }
